@@ -7,7 +7,7 @@ import java.util.List;
 public interface CaseRepository extends JpaRepository<Case, Integer> {
 
 
-    List<Case> getByUserIdAndCaseId(Integer userId, Case.Status status);
+    List<Case> getByUserIdAndStatus(Integer userId, Case.Status status);
 
     List<Case> getByUserId(Integer userId);
 

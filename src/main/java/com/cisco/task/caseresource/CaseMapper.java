@@ -3,6 +3,7 @@ package com.cisco.task.caseresource;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -30,8 +31,8 @@ public class CaseMapper {
     }
 
     private String extractUser(Case caseEntity){
-        User user = caseEntity.getUser();
-        return user.fullName();
+        Optional<User> userOptional = Optional.ofNullable(caseEntity.getUser());
+        return userOptional.map(User::fullName).orElse(null);
     }
 
     private List<NoteDto> extractNotes(Case caseEntity){

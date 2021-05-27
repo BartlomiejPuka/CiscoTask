@@ -11,11 +11,10 @@ public class StartCaseMapper {
         caseEntity.setTitle(startCaseDto.getTitle());
         caseEntity.setSeverity(startCaseDto.getSeverity());
         caseEntity.setDescription(startCaseDto.getDescription());
-        caseEntity.setUser(extractUser(startCaseDto));
         return caseEntity;
     }
 
-    private User extractUser(StartCaseDto startCaseDto){
+    public User extractUser(StartCaseDto startCaseDto){
         User user = new User();
         user.setFirstName(startCaseDto.getUserFirstName());
         user.setLastName(startCaseDto.getUserLastName());

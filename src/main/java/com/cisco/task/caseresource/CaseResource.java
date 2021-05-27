@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -61,7 +60,7 @@ public class CaseResource {
      */
     @PostMapping(value = "/case/create", consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public Integer createCase(@RequestBody StartCaseDto startCaseDto) {
+    public CaseDto createCase(@RequestBody StartCaseDto startCaseDto) {
         return caseService.createCase(startCaseDto);
     }
 
@@ -77,8 +76,12 @@ public class CaseResource {
         return caseService.addNote(noteDto, caseId);
     }
 
-
-    @PutMapping(value = "/case/{caseId}/close", consumes = "application/json")
+    /**
+     * Close case.
+     * @param caseId
+     * @return
+     */
+    @PutMapping(value = "/case/{caseId}/close")
     @ResponseStatus(HttpStatus.OK)
     public CaseDto addNote(@PathVariable Integer caseId) {
         return caseService.closeCase(caseId);
