@@ -1,13 +1,19 @@
 package com.cisco.task.caseresource;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Validated
+@Transactional
 public class CaseService {
 
     private final CaseRepository caseRepository;
@@ -32,16 +38,25 @@ public class CaseService {
         return CaseMapper.toDto(caseEntity);
     }
 
-    public Integer createCase(CaseDto caseDto){
-        Case caseEntity = CaseMapper.toEntity(caseDto);
+    public Integer createCase(@Valid StartCaseDto startCaseDto){
+        Case caseEntity = StartCaseMapper.toEntity(startCaseDto);
         return caseRepository.save(caseEntity).getCaseId();
     }
 
     //@caseExistsById annotation to validate it before invoking this method (also for testing purposes)
-    public void addNote(NoteDto noteDto, Integer caseId){
+    public CaseDto addNote(NoteDto noteDto, Integer caseId){
         Case caseEntity = caseRepository.getById(caseId);
         Note note = NoteMapper.toEntity(noteDto);
-        note.setCaseId(caseId);
-        caseRepository.save(caseEntity);
+        caseEntity.addNote(note);
+        Case savedCaseEntity = caseRepository.save(caseEntity);
+        return CaseMapper.toDto(savedCaseEntity);
+    }
+
+    // @caseExistsById
+    public CaseDto closeCase(Integer caseId){
+        Case caseEntity = caseRepository.getById(caseId);
+        caseEntity.setStatus(Case.Status.CLOSED);
+        Case savedCaseEntity = caseRepository.save(caseEntity);
+        return CaseMapper.toDto(savedCaseEntity);
     }
 }

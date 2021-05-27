@@ -21,9 +21,15 @@ public class Case {
     private Integer severity;
     @Enumerated(EnumType.STRING)
     private Status status;
-    @OneToOne
+    @OneToOne(
+            optional = true,
+            cascade = CascadeType.ALL
+    )
     private User user;
-    @OneToMany
+    @OneToMany(
+            orphanRemoval = true,
+            cascade = CascadeType.ALL
+    )
     private List<Note> notes;
 
     public enum Status{
@@ -31,8 +37,8 @@ public class Case {
         CLOSED
     }
 
-
     public void addNote(Note note){
+        note.setCaseId(this.caseId);
         this.notes.add(note);
     }
 }

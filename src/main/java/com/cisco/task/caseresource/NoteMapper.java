@@ -11,4 +11,9 @@ public class NoteMapper {
         return note;
     }
 
+    public NoteDto toDto(Note note) {
+        NoteDto noteDto = new NoteDto();
+        noteDto.setDetails(note.getDetails());
+        return noteDto;
+    }
 }
