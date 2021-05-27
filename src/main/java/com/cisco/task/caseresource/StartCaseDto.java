@@ -1,5 +1,6 @@
 package com.cisco.task.caseresource;
 
+import com.cisco.task.caseresource.validators.StartCaseStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,19 +10,18 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 public class StartCaseDto {
-    @NotBlank
+    @NotBlank(message = "Case title should not be blank.")
     private String title;
-    @NotBlank
+    @NotBlank(message = "Case description should not be blank.")
     private String description;
-    @NotBlank
     private Integer severity;
-    @NotBlank
+    @StartCaseStatus
     private Case.Status status;
-    @NotBlank
+    @NotBlank(message = "User first name should not be blank.")
     private String userFirstName;
-    @NotBlank
+    @NotBlank(message = "User last name should not be blank.")
     private String userLastName;
-    @NotBlank
+    @NotBlank(message = "User email should not be blank.")
     @Email
     private String userEmail;
 }

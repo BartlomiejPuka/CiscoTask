@@ -18,11 +18,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ApiErroResponse handleConstraintViolationException(ConstraintViolationException exception) {
+    public ApiErrorResponse handleConstraintViolationException(ConstraintViolationException exception) {
         List<String> errors = exception.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
-        return ApiErroResponse.builder()
-                .message("Constraints has been violated.")
-                .errors(errors)
-                .build();
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse();
+        apiErrorResponse.setMessage("Constraints has been violated.");
+        apiErrorResponse.setErrors(errors);
+        return apiErrorResponse;
     }
 }

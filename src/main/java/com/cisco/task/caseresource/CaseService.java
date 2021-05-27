@@ -1,5 +1,8 @@
 package com.cisco.task.caseresource;
 
+import com.cisco.task.caseresource.validators.CaseExistsById;
+import com.cisco.task.caseresource.validators.CaseNotClosedById;
+import com.cisco.task.caseresource.validators.UserExistsById;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +53,7 @@ public class CaseService {
         return CaseMapper.toDto(savedCaseEntity);
     }
 
-    public CaseDto addNote(NoteDto noteDto, @CaseExistsById Integer caseId){
+    public CaseDto addNote(NoteDto noteDto, @CaseExistsById @CaseNotClosedById Integer caseId){
         Case caseEntity = caseRepository.getById(caseId);
         Note note = NoteMapper.toEntity(noteDto);
         caseEntity.addNote(note);
@@ -58,7 +61,7 @@ public class CaseService {
         return CaseMapper.toDto(savedCaseEntity);
     }
 
-    public CaseDto closeCase(@CaseExistsById Integer caseId){
+    public CaseDto closeCase(@CaseExistsById @CaseNotClosedById Integer caseId){
         Case caseEntity = caseRepository.getById(caseId);
         caseEntity.setStatus(Case.Status.CLOSED);
         Case savedCaseEntity = caseRepository.save(caseEntity);

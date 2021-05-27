@@ -1,5 +1,6 @@
-package com.cisco.task.caseresource;
+package com.cisco.task.caseresource.validators;
 
+import com.cisco.task.caseresource.UserRepository;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
